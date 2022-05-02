@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/Public/reset.css" /> -->
+    <title>Employee Timecards</title>
+</head>
+<body>
+    <header>
+        <h1>Employee Timecard Portal</h1>
+    </header>
+    <main>
+        <section id="info-sect">
+            <h2>Info:</h2>
+            <div id="employee-name">
+                <h3>Name:</h3>
+                <p>Name Here</p>
+            </div>
+            <div id="current-date">
+                <h3>Current Date:</h3>
+                <p>XX/XX/XXXX</p>
+            </div>
+        </section>
+        <section id="new-form-sect">
+            <h2>New Timecard Entry:</h2>
+            <form id="new-time-form">
+                <div class="inputs">
+                    <div id="new-date">
+                        <label for="date-input">Select Date:</label>
+                        <input type="date" id="date-input" name="date-input" value="2022-01-24">
+                    </div>
+                    <div id="new-job-code">
+                        <label for="job-code-select">Select Job Code:</label>
+                        <select id="job-code-select" name="job-code-select">
+
+                        </select>
+                    </div>
+                    <div id="new-hours">
+                        <label for="hours-input">Total Hours:</label>
+                        <input type="number" id="hours-input" name="hours-input" min="0" max="24"/>
+                    </div>
+                </div>
+                <div class="submit">
+                    <button id="new-submit-btn">Submit</button>
+                </div>
+            </form>
+        </section>
+        <section id="past-sect">
+            <h2>Past Timecards:</h2>
+            <table id="past-table">
+                <thead>
+                    <th>Date</th>
+                    <th>Job Code</th>
+                    <th>Hours</th>
+                    <th>Options</th>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/public/portal.js"></script>
+</body>
+</html>
