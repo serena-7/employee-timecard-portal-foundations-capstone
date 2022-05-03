@@ -16,11 +16,11 @@
             <h2>Info:</h2>
             <div id="employee-name">
                 <h3>Name:</h3>
-                <p>Name Here</p>
+                <p id="name-info">Name Here</p>
             </div>
             <div id="current-date">
                 <h3>Current Date:</h3>
-                <p>XX/XX/XXXX</p>
+                <p id="current-date-info">XX/XX/XXXX</p>
             </div>
         </section>
         <section id="new-form-sect">
@@ -29,7 +29,7 @@
                 <div class="inputs">
                     <div id="new-date">
                         <label for="date-input">Select Date:</label>
-                        <input type="date" id="date-input" name="date-input" value="2022-01-24">
+                        <input type="date" id="date-input" name="date-input">
                     </div>
                     <div id="new-job-code">
                         <label for="job-code-select">Select Job Code:</label>
@@ -60,6 +60,7 @@
             </table>
         </section>
     </main>
+    <script src="funcs.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="portal.js"></script>

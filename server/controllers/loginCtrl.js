@@ -16,7 +16,7 @@ const login = (req,res) => {
     console.log('Authorizing User');
     const {email, password} = req.body;
     sequelize.query(`
-    SELECT user_id FROM users
+    SELECT user_id, first_name, last_name FROM users
     WHERE user_email = '${email}' AND user_password = '${password}';
     `)
         .then(dbRes => {

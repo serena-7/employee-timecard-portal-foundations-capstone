@@ -1,12 +1,12 @@
 const loginForm = document.querySelector('#login-form');
 
-// const baseURL = `http://localhost:4005/api`;
-
 function login(body) {
     axios.post(`/login`, body)
         .then(res => {
             console.log('found login');
             window.localStorage.setItem("userID",res.data.user_id);
+            window.localStorage.setItem("firstName",res.data.first_name);
+            window.localStorage.setItem("lastName",res.data.last_name)
             window.location.assign("./portal.html");
         })
         .catch(err => {
