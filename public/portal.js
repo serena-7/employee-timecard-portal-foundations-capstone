@@ -2,7 +2,7 @@ const newForm = document.querySelector('#new-time-form');
 const pastTable = document.querySelector("#past-table");
 const tableBody = document.querySelector('#past-table>tbody')
 
-const baseURL = `http://localhost:4005/api`;
+// const baseURL = `http://localhost:4005/api`;
 
 const errCallback = err => console.log(err);
 
@@ -20,11 +20,11 @@ const jobcodesCallback = (res) => {
 
 function getTimecards() {
     const userID = window.localStorage.getItem('userID');
-    axios.get(`${baseURL}/timecards`,{params: {ID:userID}}).then(timecardsCallback).catch(errCallback);
+    axios.get(`/timecards`,{params: {ID:userID}}).then(timecardsCallback).catch(errCallback);
 }
 
 function getJobcodes() {
-    axios.get(`${baseURL}/jobcodes`).then(jobcodesCallback).catch(errCallback);
+    axios.get(`/jobcodes`).then(jobcodesCallback).catch(errCallback);
 }
 
 function addJobcodes(jobcodes) {

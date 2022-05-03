@@ -1,9 +1,9 @@
 const loginForm = document.querySelector('#login-form');
 
-const baseURL = `http://localhost:4005/api`;
+// const baseURL = `http://localhost:4005/api`;
 
 function login(body) {
-    axios.post(`${baseURL}/login`, body)
+    axios.post(`/login`, body)
         .then(res => {
             console.log('found login');
             window.localStorage.setItem("userID",res.data.user_id);
