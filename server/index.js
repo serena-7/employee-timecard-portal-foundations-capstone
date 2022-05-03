@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require("path")
-const {SERVER_PORT} = process.env;
+const {PORT} = process.env;
 
 app.use(express.json());
 app.use(cors());
@@ -14,7 +14,9 @@ const {login} = require('./controllers/loginCtrl.js');
 const {getTimecards, getJobcodes} = require('./controllers/timecardCtrl.js');
 
 //initialize
-app.get("/", (req,res) => res.sendFile(path.join(__dirname,"../public/index.html")));
+app.get("/", (req,res) => {
+    res.sendFile(path.join(__dirname,"../public/index.html"))
+    });
 
 //DEV
 app.post('/seed',seed);
@@ -26,6 +28,4 @@ app.post(`/login`, login);
 app.get(`/timecards`, getTimecards);
 app.get(`/jobcodes`, getJobcodes);
 
-const port = process.env.PORT || SERVER_PORT;
-
-app.listen(port, () => console.log(`up on ${port}`));
+app.listen(PORT, () => console.log(`up on ${PORT}`));
