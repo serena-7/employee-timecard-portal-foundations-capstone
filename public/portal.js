@@ -1,6 +1,7 @@
 const newForm = document.querySelector('#new-time-form');
 const pastTable = document.querySelector("#past-table");
 const tableBody = document.querySelector('#past-table>tbody');
+const jobcodeSelect = document.querySelector('#job-code-select');
 
 const errCallback = err => console.log(err);
 
@@ -10,10 +11,10 @@ const timecardsCallback = (res) => {
     displayTimecards(timecards);
 }
 
-const jobcodesCallback = (res) => {
+const jobcodesCallback = (res,inputBox) => {
     const jobcodes = res.data;
     console.log(jobcodes);
-    addJobcodes(jobcodes);
+    addJobcodes(jobcodes, inputBox);
 }
 
 function getTimecards() {
@@ -24,9 +25,9 @@ function getTimecards() {
         .catch(errCallback);
 }
 
-function getJobcodes() {
+function getJobcodes(selectInputBox) {
     axios.get(`/jobcodes`)
-        .then(jobcodesCallback)
+        .then(res => jobcodesCallback(res,selectInputBox))
         .catch(errCallback);
 }
 
@@ -64,7 +65,12 @@ function editTimecard(id, item) {
             cells[i].innerHTML = `<input type='date' id='${cells[i].className}_${id}' placeholder="${cells[i].innerText}">`;
             document.querySelector(`#date_${id}`).value = oldDate;
         } else if (cells[i].className === 'job_code'){
-            cells[i].innerHTML = `<input type='select' id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
+            let oldJobcode = cells[i].innerText;
+            cells[i].innerHTML = `<select id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
+            const jobCode = document.querySelector(`#job_code_${id}`)
+            getJobcodes(jobCode.id);
+            console.log(oldJobcode);
+            $(`#${jobCode.id} option:contains("${oldJobcode}")`).attr('selected','selected');
         } else if (cells[i].className === 'hours'){
             cells[i].innerHTML = `<input type='number' id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
         } else {
@@ -94,10 +100,10 @@ function deleteTimecard(id){
         .catch(errCallback)
 }
 
-function addJobcodes(jobcodes) {
-    $('#job-code-select').find('option').remove();
+function addJobcodes(jobcodes, inputID) {
+    $(`#${inputID}`).find('option').remove();
     for(let i = 0; i < jobcodes.length; i++){
-        $('#job-code-select').append($("<option />").val(jobcodes[i].job_id).text(jobcodes[i].job_code));
+        $(`#${inputID}`).append($("<option />").val(jobcodes[i].job_id).text(jobcodes[i].job_code));
     }
 }
 
@@ -163,5 +169,5 @@ function submitHandler(e) {
 newForm.addEventListener('submit', submitHandler);
 
 loadPortal();
-getJobcodes();
+getJobcodes(jobcodeSelect.id);
 getTimecards();
