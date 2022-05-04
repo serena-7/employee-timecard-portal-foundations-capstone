@@ -7,19 +7,16 @@ const errCallback = err => console.log(err);
 
 const timecardsCallback = (res) => {
     const timecards = res.data;
-    console.log(timecards)
     displayTimecards(timecards);
 }
 
 const jobcodesCallback = (res,inputBox) => {
     const jobcodes = res.data;
-    console.log(jobcodes);
     addJobcodes(jobcodes, inputBox);
 }
 
 function getTimecards() {
     const userID = window.localStorage.getItem('userID');
-    console.log(userID);
     axios.get(`/timecards/${userID}`)
         .then(timecardsCallback)
         .catch(errCallback);
@@ -113,6 +110,10 @@ function createRow(timecard) {
     const ID = timecard.timecard_id;
     for(key in timecard){
         if(key !== 'timecard_id'){
+            if(key === 'date'){
+                let dateVal = new Date(timecard[key]);
+                timecard[key] = (dateVal.getMonth()+1).toString().padStart(2,'0') + '/' + dateVal.getDate().toString().padStart(2,'0') + '/' + dateVal.getFullYear();
+            }
             const newCell = document.createElement('td');
             newCell.appendChild(document.createTextNode(timecard[key]));
             newCell.classList.add(key);
