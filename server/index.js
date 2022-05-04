@@ -25,10 +25,10 @@ app.post('/seed',seed);
 app.post(`/login`, login);
 
 //timecard functionality
-app.get(`/timecards`, getTimecards);
+app.get(`/timecards/:id`, getTimecards);
 app.get(`/jobcodes`, getJobcodes);
 app.post(`/timecards`, createTimecard);
-app.put(`/timecards`, editTimecard);
+app.put(`/timecards/:id`, editTimecard);
 app.delete(`/timecards/:id`,deleteTimecard);
 
 app.listen(PORT, () => console.log(`up on ${PORT}`));

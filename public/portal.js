@@ -2,9 +2,6 @@ const newForm = document.querySelector('#new-time-form');
 const pastTable = document.querySelector("#past-table");
 const tableBody = document.querySelector('#past-table>tbody');
 
-
-// const {getCurrDate} = require('./funcs.js');
-
 const errCallback = err => console.log(err);
 
 const timecardsCallback = (res) => {
@@ -21,7 +18,8 @@ const jobcodesCallback = (res) => {
 
 function getTimecards() {
     const userID = window.localStorage.getItem('userID');
-    axios.get(`/timecards`,{params: {ID:userID}})
+    console.log(userID);
+    axios.get(`/timecards/${userID}`)
         .then(timecardsCallback)
         .catch(errCallback);
 }
@@ -49,7 +47,7 @@ function updateTimecard(timecodeID) {
         hours: newHours.value
     }
 
-    axios.put(`/timecards`, body)
+    axios.put(`/timecards/${timecodeID}`, body)
         .then(() => {
             getTimecards();
             alert('timecard updated');
