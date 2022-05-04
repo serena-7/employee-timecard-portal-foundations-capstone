@@ -5,16 +5,6 @@ const jobcodeSelect = document.querySelector('#job-code-select-1');
 
 const errCallback = err => console.log(err);
 
-const timecardsCallback = (res) => {
-    const timecards = res.data;
-    displayTimecards(timecards);
-}
-
-const jobcodesCallback = (res,inputBox, value) => {
-    const jobcodes = res.data;
-    addJobcodes(jobcodes, inputBox, value);
-}
-
 function getTimecards() {
     const userID = window.localStorage.getItem('userID');
     axios.get(`/timecards/${userID}`)
@@ -22,16 +12,80 @@ function getTimecards() {
         .catch(errCallback);
 }
 
-function getJobcodes(selectInputBox, value) {
+const timecardsCallback = (res) => {
+    const timecards = res.data;
+    displayTimecards(timecards);
+}
+
+function displayTimecards(timecards) {
+    $('#past-table tbody').empty();
+    for(let i = 0; i < timecards.length; i++){
+        createRow(timecards[i]);
+    }
+}
+
+function createRow(timecard) {
+    const newRow = document.createElement('tr');
+    const ID = timecard.timecard_id;
+    for(key in timecard){
+        if(key !== 'timecard_id'){
+            if(key === 'date'){
+                timecard[key] = convertDate(timecard[key], false);
+            }
+            const newCell = document.createElement('td');
+            newCell.appendChild(document.createTextNode(timecard[key]));
+            newCell.classList.add(key);
+            newRow.appendChild(newCell);
+        }
+    }
+    const newCell = newRow.insertCell();
+    newCell.classList.add('buttons');
+    const buttonContainer = document.createElement('div');
+    const editBtn = document.createElement('button');
+    editBtn.classList.add('edit-btn');
+    editBtn.innerText = 'Edit';
+    editBtn.onclick = () => editTimecard(ID,editBtn);
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add('dlt-btn');
+    deleteBtn.innerText = 'Delete';
+    deleteBtn.onclick = () => deleteTimecard(ID,deleteBtn);
+    buttonContainer.appendChild(editBtn);
+    buttonContainer.appendChild(deleteBtn);
+
+    newCell.appendChild(buttonContainer);
+    newRow.appendChild(newCell);
+    $('#past-table tbody').append(newRow);
+}
+
+function getJobcodes(inputID, value) {
     axios.get(`/jobcodes`)
-        .then(res => jobcodesCallback(res,selectInputBox, value))
+        .then(res => jobcodesCallback(res,inputID, value))
         .catch(errCallback);
+}
+
+const jobcodesCallback = (res,inputID, value) => {
+    const jobcodes = res.data;
+    addJobcodes(jobcodes, inputID, value);
+}
+
+function addJobcodes(jobcodes, inputID, value) {
+    $(`#${inputID}`).find('option').remove();
+    for(let i = 0; i < jobcodes.length; i++){
+        $(`#${inputID}`).append($("<option />").val(jobcodes[i].job_id).text(jobcodes[i].job_code));
+    }
+    if(value){
+        $(`#${inputID} option:contains('${value}')`).attr('selected',true);
+    }
 }
 
 function createTimecard(body) {
     axios.post(`/timecards`, body)
-        .then(getTimecards)
+        .then(createCallback)
         .catch(errCallback);
+}
+
+const createCallback = res => {
+    newTimecards.push(res.data);
 }
 
 function updateTimecard(timecardID) {
@@ -96,76 +150,45 @@ function deleteTimecard(id){
         .catch(errCallback)
 }
 
-function addJobcodes(jobcodes, inputID, value) {
-    $(`#${inputID}`).find('option').remove();
-    for(let i = 0; i < jobcodes.length; i++){
-        $(`#${inputID}`).append($("<option />").val(jobcodes[i].job_id).text(jobcodes[i].job_code));
-    }
-    if(value){
-        $(`#${inputID} option:contains('${value}')`).attr('selected',true);
-    }
-}
-
-
-function createRow(timecard) {
-    const newRow = document.createElement('tr');
-    const ID = timecard.timecard_id;
-    for(key in timecard){
-        if(key !== 'timecard_id'){
-            if(key === 'date'){
-                timecard[key] = convertDate(timecard[key], false);
-            }
-            const newCell = document.createElement('td');
-            newCell.appendChild(document.createTextNode(timecard[key]));
-            newCell.classList.add(key);
-            newRow.appendChild(newCell);
-        }
-    }
-    const newCell = newRow.insertCell();
-    newCell.classList.add('buttons');
-    const buttonContainer = document.createElement('div');
-    const editBtn = document.createElement('button');
-    editBtn.classList.add('edit-btn');
-    editBtn.innerText = 'Edit';
-    editBtn.onclick = () => editTimecard(ID,editBtn);
-    const deleteBtn = document.createElement('button');
-    deleteBtn.classList.add('dlt-btn');
-    deleteBtn.innerText = 'Delete';
-    deleteBtn.onclick = () => deleteTimecard(ID,deleteBtn);
-    buttonContainer.appendChild(editBtn);
-    buttonContainer.appendChild(deleteBtn);
-
-    newCell.appendChild(buttonContainer);
-    newRow.appendChild(newCell);
-    $('#past-table tbody').append(newRow);
-}
-
-function displayTimecards(timecards) {
-    $('#past-table tbody').empty();
-    for(let i = 0; i < timecards.length; i++){
-        createRow(timecards[i]);
-    }
-}
-
 function submitHandler(e) {
     e.preventDefault();
-
+    newTimecards = [];
     const userID = window.localStorage.getItem('userID');
-    const jobCode = document.querySelector('#job-code-select');
-    const dateInput = document.querySelector('#date-input');
-    const hours = document.querySelector('#hours-input');
+    $('#new-time-tbody > tr').each((ind, tr) => {
+        const object = {}
+        $(this).find('td').each((ind, td) =>{
+            if(td.className !== 'buttons'){
+                const input = td.children[0];
+                object[td.className] = input.value;
+            }
+        })
+        const bodyObj = {
+            userID,
+            jobID: object.job_code,
+            date: object.date,
+            hours: object.hours
+        }
+        createTimecard(bodyObj);
+    })
 
-    const bodyObj = {
-        userID,
-        jobID: jobCode.value,
-        date: dateInput.value,
-        hours: hours.value
-    }
+    // clearNewTable();
+    alert(`Created Timecards: ${newTimecards}`)
+    getTimecards();
+    // const jobCode = document.querySelector('#job-code-select');
+    // const dateInput = document.querySelector('#date-input');
+    // const hours = document.querySelector('#hours-input');
 
-    createTimecard(bodyObj);
+    // const bodyObj = {
+    //     userID,
+    //     jobID: jobCode.value,
+    //     date: dateInput.value,
+    //     hours: hours.value
+    // }
 
-    getCurrDate();
-    hours.value = '';
+    // createTimecard(bodyObj);
+
+    // getCurrDate();
+    // hours.value = '';
 }
 
 newForm.addEventListener('submit', submitHandler);
