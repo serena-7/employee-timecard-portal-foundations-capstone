@@ -60,14 +60,14 @@ function editTimecard(id, item) {
         if(cells[i].className === 'date'){
             let oldDate = cells[i].innerText;
             cells[i].innerHTML = `<input type='date' id='${cells[i].className}_${id}' placeholder="${cells[i].innerText}">`;
-            document.querySelector(`#date_${id}`).value = oldDate;
+            document.querySelector(`#date_${id}`).value = convertDate(oldDate,true);
         } else if (cells[i].className === 'job_code'){
             let oldJobcode = cells[i].innerText;
             cells[i].innerHTML = `<select id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
             const jobCode = document.querySelector(`#job_code_${id}`)
             getJobcodes(jobCode.id);
             console.log(oldJobcode);
-            $(`#${jobCode.id} option:contains("${oldJobcode}")`).attr('selected','selected');
+            $(`#${jobCode.id} option:contains('${oldJobcode}')`).attr('selected',true);
         } else if (cells[i].className === 'hours'){
             cells[i].innerHTML = `<input type='number' id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
         } else {
@@ -102,6 +102,7 @@ function addJobcodes(jobcodes, inputID) {
     for(let i = 0; i < jobcodes.length; i++){
         $(`#${inputID}`).append($("<option />").val(jobcodes[i].job_id).text(jobcodes[i].job_code));
     }
+    $(`#${inputID} option:contains('jobsite1')`).attr('selected',true);
 }
 
 
@@ -111,8 +112,7 @@ function createRow(timecard) {
     for(key in timecard){
         if(key !== 'timecard_id'){
             if(key === 'date'){
-                let dateVal = new Date(timecard[key]);
-                timecard[key] = (dateVal.getMonth()+1).toString().padStart(2,'0') + '/' + dateVal.getDate().toString().padStart(2,'0') + '/' + dateVal.getFullYear();
+                timecard[key] = convertDate(timecard[key], false);
             }
             const newCell = document.createElement('td');
             newCell.appendChild(document.createTextNode(timecard[key]));
