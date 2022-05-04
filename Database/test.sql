@@ -8,3 +8,6 @@ WHERE timecards.user_id = '${userID}'
 ORDER BY date;
 
 SELECT * FROM jobs;
+
+UPDATE timecards
+SET 

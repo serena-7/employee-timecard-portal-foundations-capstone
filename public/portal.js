@@ -10,9 +10,9 @@ const timecardsCallback = (res) => {
     displayTimecards(timecards);
 }
 
-const jobcodesCallback = (res,inputBox) => {
+const jobcodesCallback = (res,inputBox, value) => {
     const jobcodes = res.data;
-    addJobcodes(jobcodes, inputBox);
+    addJobcodes(jobcodes, inputBox, value);
 }
 
 function getTimecards() {
@@ -22,9 +22,9 @@ function getTimecards() {
         .catch(errCallback);
 }
 
-function getJobcodes(selectInputBox) {
+function getJobcodes(selectInputBox, value) {
     axios.get(`/jobcodes`)
-        .then(res => jobcodesCallback(res,selectInputBox))
+        .then(res => jobcodesCallback(res,selectInputBox, value))
         .catch(errCallback);
 }
 
@@ -34,10 +34,10 @@ function createTimecard(body) {
         .catch(errCallback);
 }
 
-function updateTimecard(timecodeID) {
-    let newDate = document.querySelector(`#date_${timecodeID}`);
-    let newJobCode = document.querySelector(`#job_code_${timecodeID}`);
-    let newHours = document.querySelector(`#hours_${timecodeID}`);
+function updateTimecard(timecardID) {
+    let newDate = document.querySelector(`#date_${timecardID}`);
+    let newJobCode = document.querySelector(`#job_code_${timecardID}`);
+    let newHours = document.querySelector(`#hours_${timecardID}`);
 
     const bodyObj = {
         date: newDate.value,
@@ -45,7 +45,7 @@ function updateTimecard(timecodeID) {
         hours: newHours.value
     }
 
-    axios.put(`/timecards/${timecodeID}`, body)
+    axios.put(`/timecards/${timecardID}`, bodyObj)
         .then(() => {
             getTimecards();
             alert('timecard updated');
@@ -63,11 +63,11 @@ function editTimecard(id, item) {
             document.querySelector(`#date_${id}`).value = convertDate(oldDate,true);
         } else if (cells[i].className === 'job_code'){
             let oldJobcode = cells[i].innerText;
+            console.log(oldJobcode)
             cells[i].innerHTML = `<select id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
             const jobCode = document.querySelector(`#job_code_${id}`)
-            getJobcodes(jobCode.id);
-            console.log(oldJobcode);
-            $(`#${jobCode.id} option:contains('${oldJobcode}')`).attr('selected',true);
+            getJobcodes(jobCode.id, oldJobcode);
+            // $(`#job_code_${id} option:contains('jobsite1')`).attr('selected',true);
         } else if (cells[i].className === 'hours'){
             cells[i].innerHTML = `<input type='number' id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
         } else {
@@ -97,12 +97,14 @@ function deleteTimecard(id){
         .catch(errCallback)
 }
 
-function addJobcodes(jobcodes, inputID) {
+function addJobcodes(jobcodes, inputID, value) {
     $(`#${inputID}`).find('option').remove();
     for(let i = 0; i < jobcodes.length; i++){
         $(`#${inputID}`).append($("<option />").val(jobcodes[i].job_id).text(jobcodes[i].job_code));
     }
-    $(`#${inputID} option:contains('jobsite1')`).attr('selected',true);
+    if(value){
+        $(`#${inputID} option:contains('${value}')`).attr('selected',true);
+    }
 }
 
 
@@ -170,5 +172,5 @@ function submitHandler(e) {
 newForm.addEventListener('submit', submitHandler);
 
 loadPortal();
-getJobcodes(jobcodeSelect.id);
+getJobcodes(jobcodeSelect.id, null);
 getTimecards();

@@ -59,5 +59,13 @@ module.exports = {
     
     editTimecard: (req,res) => {
         const {date, job_id, hours} = req.body;
+        const {id} = req.params;
+        sequelize.query(`
+        UPDATE timecards
+        SET job_id = ${job_id}, date = '${date}', hours = ${hours}
+        WHERE timecard_id = ${id};
+        `)
+            .then(dbRes => res.status(200).send(dbRes[0]))
+            .catch(err => console.log(err));
     }
 }
