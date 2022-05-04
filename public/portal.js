@@ -1,7 +1,7 @@
 const newForm = document.querySelector('#new-time-form');
 const pastTable = document.querySelector("#past-table");
 const tableBody = document.querySelector('#past-table>tbody');
-const jobcodeSelect = document.querySelector('#job-code-select');
+const jobcodeSelect = document.querySelector('#job-code-select-1');
 
 const errCallback = err => console.log(err);
 
@@ -67,7 +67,6 @@ function editTimecard(id, item) {
             cells[i].innerHTML = `<select id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
             const jobCode = document.querySelector(`#job_code_${id}`)
             getJobcodes(jobCode.id, oldJobcode);
-            // $(`#job_code_${id} option:contains('jobsite1')`).attr('selected',true);
         } else if (cells[i].className === 'hours'){
             cells[i].innerHTML = `<input type='number' id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
         } else {

@@ -26,6 +26,40 @@
         <section id="new-form-sect">
             <h2>New Timecard Entry:</h2>
             <form id="new-time-form">
+                <table id="new-inputs">
+                    <thead>
+                        <th>Date</th>
+                        <th>Job Code</th>
+                        <th>Hours</th>
+                        <th>Delete</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="date">
+                                <input type="date" id="date-input-1">
+                            </td>
+                            <td class="job_code">
+                                <select id="job-code-select-1"></select>
+                            </td>
+                            <td class="hours">
+                                <input type="number" id="hours-input-1" min="0" max="24"/>
+                            </td>
+                            <td class="buttons">
+                                <div class="btn-container">
+                                    <button id="delete-row-1" onclick="deleteRow('delete-row-1')">X</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-btns">
+                    <button id="add-row-btn">Add Row</button>
+                </div>
+                <div class="submit">
+                    <button id="new-submit-btn">Submit</button>
+                </div>
+            </form>
+            <!-- <form id="new-time-form">
                 <div class="inputs">
                     <div id="new-date">
                         <label for="date-input">Select Date:</label>
@@ -45,7 +79,7 @@
                 <div class="submit">
                     <button id="new-submit-btn">Submit</button>
                 </div>
-            </form>
+            </form> -->
         </section>
         <section id="past-sect">
             <h2>Past Timecards:</h2>

@@ -1,7 +1,9 @@
+var rowNum = 2;
+
 function getCurrDate() {
-    let dateField = document.querySelector('#date-input')
+    // let dateField = document.querySelector('#date-input-1')
     let currentDateInfo = document.querySelector('#current-date-info')
-    dateField.value = convertDate(null,true);
+    // dateField.value = convertDate(null,true);
     currentDateInfo.innerText = convertDate(null, false);
 }
 
