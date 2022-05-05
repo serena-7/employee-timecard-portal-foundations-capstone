@@ -67,5 +67,15 @@ module.exports = {
         `)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err));
+    },
+
+    getTimecardDate: (req,res) => {
+        const {id} = req.params;
+        sequelize.query(`
+        SELECT date FROM timecards
+        WHERE timecard_id = ${id};
+        `)
+            .then(dbRes => res.status(200).send(dbRes[0][0]))
+            .catch(err => console.log(err));
     }
 }

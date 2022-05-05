@@ -1,6 +1,4 @@
 const newForm = document.querySelector('#new-time-form');
-const pastTable = document.querySelector("#past-table");
-const tableBody = document.querySelector('#past-table>tbody');
 const jobcodeSelect = document.querySelector('#job-code-select-1');
 
 const errCallback = err => console.log(err);
@@ -30,7 +28,6 @@ function createRow(timecard) {
     for(key in timecard){
         if(key !== 'timecard_id'){
             if(key === 'date'){
-                console.log(timecard[key]);
                 timecard[key] = convertDate(timecard[key], false);
             }
             const newCell = document.createElement('td');
@@ -89,9 +86,9 @@ function updateTimecard(timecardID) {
     let newDate = document.querySelector(`#date_${timecardID}`);
     let newJobCode = document.querySelector(`#job_code_${timecardID}`);
     let newHours = document.querySelector(`#hours_${timecardID}`);
-
+    console.log(newHours.value);
     const bodyObj = {
-        date: newDate.value,
+        date: new Date(newDate.value).toISOString(),
         job_id: newJobCode.value,
         hours: newHours.value
     }
@@ -109,17 +106,15 @@ function editTimecard(id, item) {
     var cells = row.children;
     for(let i = 0; i < cells.length; i++){
         if(cells[i].className === 'date'){
-            let oldDate = cells[i].innerText;
-            cells[i].innerHTML = `<input type='date' id='${cells[i].className}_${id}' placeholder="${cells[i].innerText}">`;
-            document.querySelector(`#date_${id}`).value = convertDate(oldDate,true);
+            cells[i].innerHTML = `<input type='datetime-local' id='${cells[i].className}_${id}' placeholder="${cells[i].innerText}">`;
+            getTimecardDate(id);
         } else if (cells[i].className === 'job_code'){
             let oldJobcode = cells[i].innerText;
-            console.log(oldJobcode)
             cells[i].innerHTML = `<select id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
             const jobCode = document.querySelector(`#job_code_${id}`)
             getJobcodes(jobCode.id, oldJobcode);
         } else if (cells[i].className === 'hours'){
-            cells[i].innerHTML = `<input type='number' id='${cells[i].className}_${id}' placeholder='${cells[i].innerText}'>`;
+            cells[i].innerHTML = `<input type='number' id='${cells[i].className}_${id}' value='${cells[i].innerText}'>`;
         } else {
             const buttonDiv = cells[i].children[0];
             let button = buttonDiv.lastElementChild;
@@ -166,10 +161,12 @@ function submitHandler(e) {
             }
         })
         if(isInvalid) return;
+        // let newDate = new Date(object.date);
+        // console.log(newDate);
         const bodyObj = {
             userID,
             jobID: object.job_code,
-            date: object.date,
+            date: new Date(object.date).toISOString(),
             hours: object.hours
         }
         bodyObjs.push(bodyObj);
@@ -185,6 +182,14 @@ function submitHandler(e) {
     } else {
         alert(`Invalid Inputs`)
     }
+}
+
+function getTimecardDate(timecardID){
+    axios.get(`/timecarddate/${timecardID}`)
+        .then((res) => {
+            oldDate = convertDate(res.data.date, true);
+            document.querySelector(`#date_${timecardID}`).value = oldDate;
+        }).catch(errCallback);
 }
 
 newForm.addEventListener('submit', submitHandler);

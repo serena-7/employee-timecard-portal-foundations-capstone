@@ -17,15 +17,15 @@ function loadPortal() {
 
 function convertDate(dateText, toDateFormat){
     let date;
-    console.log(dateText);
+    // console.log(dateText);
     if(dateText){
         date = new Date(dateText);
-        console.log(date);
+        // console.log(date);
     } else {
         date = new Date();
     }
     if(toDateFormat){
-        return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2,'0') + '-' + date.getDate().toString().padStart(2,'0');
+        return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2,'0') + '-' + date.getDate().toString().padStart(2,'0') + 'T' + date.getHours().toString().padStart(2,'0') + ':' + date.getMinutes().toString().padStart(2,'0') + ':' + date.getSeconds().toString().padStart(2,'0');
     } else {
         return (date.getMonth() + 1).toString().padStart(2,'0') + ' / ' + (date.getDate()).toString().padStart(2,'0') + ' / ' + date.getFullYear()
     }
@@ -62,11 +62,11 @@ $(document).on('click','.delete-row-btn', function(event) {
     $(this).parents('tr').first().remove();
 })
 
-// $(document).ready(function() {
-//     let nameInfo = document.querySelector('#name-info');
-//     let firstName = window.localStorage.getItem('firstName');
-//     let lastName = window.localStorage.getItem('lastName');
-//     nameInfo.innerHTML = firstName + ' ' + lastName;
-//     getCurrDate();
-//     $('.job_code')
-// })
+$(document).ready(function() {
+    let nameInfo = document.querySelector('#name-info');
+    let firstName = window.localStorage.getItem('firstName');
+    let lastName = window.localStorage.getItem('lastName');
+    nameInfo.innerHTML = firstName + ' ' + lastName;
+    getCurrDate();
+    $('.job_code')
+})
