@@ -30,6 +30,7 @@ function createRow(timecard) {
     for(key in timecard){
         if(key !== 'timecard_id'){
             if(key === 'date'){
+                console.log(timecard[key]);
                 timecard[key] = convertDate(timecard[key], false);
             }
             const newCell = document.createElement('td');
@@ -80,12 +81,8 @@ function addJobcodes(jobcodes, inputID, value) {
 
 function createTimecard(body) {
     axios.post(`/timecards`, body)
-        .then(createCallback)
+        .then(() => {console.log('timecard created')})
         .catch(errCallback);
-}
-
-const createCallback = res => {
-    newTimecards.push(res.data);
 }
 
 function updateTimecard(timecardID) {
@@ -152,43 +149,42 @@ function deleteTimecard(id){
 
 function submitHandler(e) {
     e.preventDefault();
-    newTimecards = [];
+    let isInvalid = false;
+    let bodyObjs = [];
     const userID = window.localStorage.getItem('userID');
-    $('#new-time-tbody > tr').each((ind, tr) => {
+    $('#new-time-tbody > tr').each(function(rowI, tr) {
         const object = {}
-        $(this).find('td').each((ind, td) =>{
+        $(this).find('td').each(function(dataI, td) {
             if(td.className !== 'buttons'){
                 const input = td.children[0];
-                object[td.className] = input.value;
+                console.log(input.value)
+                if(input.value){
+                    object[td.className] = input.value;
+                } else {
+                    isInvalid = true;
+                }
             }
         })
+        if(isInvalid) return;
         const bodyObj = {
             userID,
             jobID: object.job_code,
             date: object.date,
             hours: object.hours
         }
-        createTimecard(bodyObj);
+        bodyObjs.push(bodyObj);
     })
 
-    // clearNewTable();
-    alert(`Created Timecards: ${newTimecards}`)
-    getTimecards();
-    // const jobCode = document.querySelector('#job-code-select');
-    // const dateInput = document.querySelector('#date-input');
-    // const hours = document.querySelector('#hours-input');
-
-    // const bodyObj = {
-    //     userID,
-    //     jobID: jobCode.value,
-    //     date: dateInput.value,
-    //     hours: hours.value
-    // }
-
-    // createTimecard(bodyObj);
-
-    // getCurrDate();
-    // hours.value = '';
+    if(!isInvalid) {
+        bodyObjs.forEach((bodyObj) => {
+            createTimecard(bodyObj);
+        })
+        alert(`Created Timecards:`);
+        // clearNewTable();
+        getTimecards();
+    } else {
+        alert(`Invalid Inputs`)
+    }
 }
 
 newForm.addEventListener('submit', submitHandler);

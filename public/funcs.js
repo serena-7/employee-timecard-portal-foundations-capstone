@@ -1,5 +1,4 @@
 var rowNum = 2;
-var newTimecards = [];
 
 function getCurrDate() {
     // let dateField = document.querySelector('#date-input-1')
@@ -18,15 +17,17 @@ function loadPortal() {
 
 function convertDate(dateText, toDateFormat){
     let date;
+    console.log(dateText);
     if(dateText){
         date = new Date(dateText);
+        console.log(date);
     } else {
         date = new Date();
     }
     if(toDateFormat){
         return date.getFullYear() + '-' + (date.getMonth() + 1).toString().padStart(2,'0') + '-' + date.getDate().toString().padStart(2,'0');
     } else {
-        return (date.getMonth() + 1).toString().padStart(2,'0') + ' / ' + (date.getDate()).toString().padStart(2,'0') + ' / ' + date.getFullYear();
+        return (date.getMonth() + 1).toString().padStart(2,'0') + ' / ' + (date.getDate()).toString().padStart(2,'0') + ' / ' + date.getFullYear()
     }
 }
 
