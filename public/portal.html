@@ -28,22 +28,30 @@
             <form id="new-time-form">
                 <table id="new-inputs">
                     <thead>
-                        <th>Date & Start Time</th>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
                         <th>Job Code</th>
-                        <th>Hours</th>
+                        <!-- <th>Hours</th> -->
                         <th>Delete</th>
                     </thead>
                     <tbody id="new-time-tbody">
                         <tr id="row-1">
                             <td class="date">
-                                <input type="datetime-local" class="date-input">
+                                <input type="date" class="date-input">
+                            </td>
+                            <td class="start-time">
+                                <input type="time" class="start-time-input">
+                            </td>
+                            <td class="end-time">
+                                <input type="time" class="end-time-input">
                             </td>
                             <td class="job_code">
                                 <select class="job-code-select" id="job-code-select-1"></select>
                             </td>
-                            <td class="hours">
+                            <!-- <td class="hours">
                                 <input type="number" class="hours-input" min="0" max="24"/>
-                            </td>
+                            </td> -->
                             <td class="buttons">
                                 <div class="btn-container">
                                     <button type="button" class="delete-row-btn">X</button>
@@ -86,6 +94,8 @@
             <table id="past-table">
                 <thead>
                     <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
                     <th>Job Code</th>
                     <th>Hours</th>
                     <th>Options</th>
