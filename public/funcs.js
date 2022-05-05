@@ -37,7 +37,7 @@ $("#add-row-btn").on('click', function(event) {
     $('#new-time-tbody').append(`
     <tr id="row-${rowNum}">
         <td class="date">
-            <input type="date" class="date-input">
+            <input type="datetime-local" class="date-input">
         </td>
         <td class="job_code">
             <select class="job-code-select" id="job-code-select-${rowNum}"></select>
