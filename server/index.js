@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 const {seed} = require('./controllers/dbCtrl.js');
 const {login} = require('./controllers/loginCtrl.js');
-const {getTimecards, getJobcodes, createTimecard, deleteTimecard, editTimecard, getTimecardDate} = require('./controllers/timecardCtrl.js');
+const {getTimecards, getJobcodes, createTimecard, deleteTimecard, editTimecard} = require('./controllers/timecardCtrl.js');
 
 //initialize
 app.get("/", (req,res) => {
@@ -27,7 +27,6 @@ app.post(`/login`, login);
 //timecard functionality
 app.get(`/timecards/:id`, getTimecards);
 app.get(`/jobcodes`, getJobcodes);
-app.get(`/timecarddate/:id`, getTimecardDate);
 app.post(`/timecards`, createTimecard);
 app.put(`/timecards/:id`, editTimecard);
 app.delete(`/timecards/:id`,deleteTimecard);

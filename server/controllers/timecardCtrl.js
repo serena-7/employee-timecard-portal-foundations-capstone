@@ -17,11 +17,11 @@ module.exports = {
         const userID = req.params.id;
         console.log(userID);
         sequelize.query(`
-        SELECT timecard_id, date, jobs.job_code AS job_code, hours 
+        SELECT timecard_id, start_timestamp, end_timestamp, jobs.job_code AS job_code, hours 
         FROM timecards JOIN jobs 
         ON timecards.job_id=jobs.job_id
         WHERE timecards.user_id = ${userID}
-        ORDER BY date DESC;
+        ORDER BY start_timestamp DESC;
         `)
             .then(dbRes => {
                 res.status(200).send(dbRes[0]);
@@ -58,24 +58,14 @@ module.exports = {
     },
     
     editTimecard: (req,res) => {
-        const {date, job_id, hours} = req.body;
+        const {job_id, start_timestamp, end_timestamp, hours} = req.body;
         const {id} = req.params;
         sequelize.query(`
         UPDATE timecards
-        SET job_id = ${job_id}, date = '${date}', hours = ${hours}
+        SET job_id = ${job_id}, start_timestamp = '${start_timestamp}', end_timestamp = '${end_timestamp}', hours = ${hours}
         WHERE timecard_id = ${id};
         `)
             .then(dbRes => res.status(200).send(dbRes[0]))
-            .catch(err => console.log(err));
-    },
-
-    getTimecardDate: (req,res) => {
-        const {id} = req.params;
-        sequelize.query(`
-        SELECT date FROM timecards
-        WHERE timecard_id = ${id};
-        `)
-            .then(dbRes => res.status(200).send(dbRes[0][0]))
             .catch(err => console.log(err));
     }
 }

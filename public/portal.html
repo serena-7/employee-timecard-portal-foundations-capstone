@@ -31,6 +31,7 @@
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
+                        <th>Total Hours</th>
                         <th>Job Code</th>
                         <!-- <th>Hours</th> -->
                         <th>Delete</th>
@@ -46,12 +47,12 @@
                             <td class="end-time">
                                 <input type="time" class="end-time-input">
                             </td>
-                            <td class="job_code">
-                                <select class="job-code-select" id="job-code-select-1"></select>
+                            <td class="hours">
+                                0
                             </td>
-                            <!-- <td class="hours">
-                                <input type="number" class="hours-input" min="0" max="24"/>
-                            </td> -->
+                            <td class="job-code">
+                                <select class="job-code-select"></select>
+                            </td>
                             <td class="buttons">
                                 <div class="btn-container">
                                     <button type="button" class="delete-row-btn">X</button>
@@ -67,27 +68,6 @@
                     <button type="submit" id="new-submit-btn">Submit</button>
                 </div>
             </form>
-            <!-- <form id="new-time-form">
-                <div class="inputs">
-                    <div id="new-date">
-                        <label for="date-input">Select Date:</label>
-                        <input type="date" id="date-input" name="date-input">
-                    </div>
-                    <div id="new-job-code">
-                        <label for="job-code-select">Select Job Code:</label>
-                        <select id="job-code-select" name="job-code-select">
-
-                        </select>
-                    </div>
-                    <div id="new-hours">
-                        <label for="hours-input">Total Hours:</label>
-                        <input type="number" id="hours-input" name="hours-input" min="0" max="24"/>
-                    </div>
-                </div>
-                <div class="submit">
-                    <button id="new-submit-btn">Submit</button>
-                </div>
-            </form> -->
         </section>
         <section id="past-sect">
             <h2>Past Timecards:</h2>
@@ -107,6 +87,6 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="funcs.js"></script>
-    <script src="portal.js"></script>
+    <script src="portal2.js"></script>
 </body>
 </html>
