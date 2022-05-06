@@ -94,8 +94,8 @@ function updateTimecard(id){
     const newDate = $(`#past-row-${id} .date-input`).val();
     const newStart = $(`#past-row-${id} .start-time-input`).val();
     const newEnd = $(`#past-row-${id} .end-time-input`).val();
-    const startTimestamp = new Date(newDate + 'T' + newStart + '-07:00').toISOString();
-    const endTimestamp = new Date(newDate + 'T' + newEnd + '-07:00').toISOString();
+    const startTimestamp = new Date(newDate + 'T' + newStart + '-06:00').toISOString();
+    const endTimestamp = new Date(newDate + 'T' + newEnd + '-06:00').toISOString();
     const newHours = $(`#past-row-${id} .hours`).text();
     const bodyObj = {
         job_id: +newjobCode,
@@ -124,6 +124,11 @@ function createTimecard(body){
         .catch(errCallback);
 }
 
+function clearEntryForm() {
+    $(`#new-time-tbody`).empty();
+    addNewRow();
+}
+
 function submitHandler(e){
     e.preventDefault();
     const userID = window.localStorage.getItem('userID');
@@ -139,8 +144,8 @@ function submitHandler(e){
                 }
             }
         })
-        object['startTimestamp'] = new Date(object['date'] + 'T' + object['start-time'] + '-07:00').toISOString();
-        object['endTimestamp'] = new Date(object['date'] + 'T' + object['end-time'] + '-07:00').toISOString();
+        object['startTimestamp'] = new Date(object['date'] + 'T' + object['start-time'] + '-06:00').toISOString();
+        object['endTimestamp'] = new Date(object['date'] + 'T' + object['end-time'] + '-06:00').toISOString();
         
         const bodyObj = {
             userID,
@@ -149,9 +154,11 @@ function submitHandler(e){
             endTimestamp: object['endTimestamp'],
             hours: object['hours']
         }
+        console.log(bodyObj);
         createTimecard(bodyObj);
     })
     alert('Created Timecards');
+    clearEntryForm();
     getTimecards();
 }
 

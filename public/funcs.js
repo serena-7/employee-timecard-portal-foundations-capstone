@@ -54,25 +54,23 @@ function updateTotHours(rowID){
     }
 }
 
-$("#add-row-btn").on('click', function(event) {
-    event.stopPropagation();
-    event.stopImmediatePropagation();
+function addNewRow(){
     $('#new-time-tbody').append(`
     <tr id="row-${rowNum}">
         <td class="date">
-            <input type="datetime" class="date-input">
+            <input type="date" class="date-input" required>
         </td>
         <td class="start-time">
-            <input type="time" class="start-time-input">
+            <input type="time" class="start-time-input" required>
         </td>
         <td class="end-time">
-            <input type="time" class="end-time-input">
+            <input type="time" class="end-time-input" required>
         </td>
         <td class="hours">
             <p>0</p>
         </td>
         <td class="job-code">
-            <select class="job-code-select"></select>
+            <select class="job-code-select" required></select>
         </td>
         <td class="buttons">
             <div class="btn-container">
@@ -83,6 +81,12 @@ $("#add-row-btn").on('click', function(event) {
     `);
     getJobcodes(`#row-${rowNum} .job-code-select`,null);
     rowNum++;
+}
+
+$("#add-row-btn").on('click', function(event) {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    addNewRow();
 })
 
 $(document).on('click','.delete-row-btn', function(event) {
@@ -95,7 +99,12 @@ $(document).on('click','.dlt-btn', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
     let timecardID = $(this).closest('tr').attr('id').match(/(\d+)/)[0];
-    deleteTimecard(timecardID)
+    let timecardDate = $(`#past-row-${timecardID} .date`).text();
+    let result = confirm(`Want to delete timecard for ${timecardDate}?`);
+    if(result){
+        deleteTimecard(timecardID)
+        alert('timecard deleted')
+    }
 })
 
 $(document).on('click','.edit-btn', function(event) {
