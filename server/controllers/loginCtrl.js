@@ -28,13 +28,6 @@ const login = (req,res) => {
             }
         })
         .catch(err => console.log(err));
-    // console.log(result);
-    //     if(result.length != 0){
-    //     console.log(result);
-    //     res.status(200).send(result[0]);
-    // } else {
-    //     res.status(400).send('User Not Found');
-    // }
 }
 
 module.exports = {
