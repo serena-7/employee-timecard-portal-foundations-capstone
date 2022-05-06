@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="reset.css"/>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="portal.css"/>
     <title>Employee Timecards</title>
 </head>
 <body>
@@ -14,13 +16,15 @@
     <main>
         <section id="info-sect">
             <h2>Info:</h2>
-            <div id="employee-name">
-                <h3>Name:</h3>
-                <p id="name-info">Name Here</p>
-            </div>
-            <div id="current-date">
-                <h3>Current Date:</h3>
-                <p id="current-date-info">XX/XX/XXXX</p>
+            <div id="info-data">
+                <div class="info">
+                    <h3>Employee Name:</h3>
+                    <p id="name-info">Name Here</p>
+                </div>
+                <div class="info">
+                    <h3>Current Date:</h3>
+                    <p id="current-date-info">XX/XX/XXXX</p>
+                </div>
             </div>
         </section>
         <section id="new-form-sect">
@@ -31,7 +35,7 @@
                         <th>Date</th>
                         <th>Start Time</th>
                         <th>End Time</th>
-                        <th>Total Hours</th>
+                        <th>Hours</th>
                         <th>Job Code</th>
                         <th>Delete</th>
                     </thead>
@@ -70,17 +74,19 @@
         </section>
         <section id="past-sect">
             <h2>Past Timecards:</h2>
-            <table id="past-table">
-                <thead>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                    <th>Total Hours</th>
-                    <th>Job Code</th>
-                    <th>Options</th>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div id="past-container">
+                <table id="past-table">
+                    <thead>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Hours</th>
+                        <th>Job Code</th>
+                        <th>Options</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </section>
     </main>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

@@ -1,0 +1,151 @@
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height:90vh;
+    min-width: 100vw;
+}
+
+section {
+    margin:10px;
+    border: solid 3px gray;
+    width: 80vw;
+}
+
+h2 {
+    margin: 15px;
+}
+
+#info-data {
+    display:flex;
+    justify-content: flex-start;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.info {
+    margin:15px;
+    margin-top: 0px;
+    margin-right:100px;
+    padding: 5px;
+    width: 20%;
+    border: solid white 2px;
+}
+
+h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight:bold;
+}
+
+#new-time-form {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+}
+
+#new-inputs{
+    table-layout:fixed;
+    width: 90%;
+    border-collapse: collapse;
+    border: solid white 2px;
+}
+
+#past-container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#past-table{
+    table-layout:fixed;
+    width:90%;
+    border-collapse: collapse;
+    border: solid white 2px;
+    margin-bottom:20px;
+}
+
+thead th:nth-child(1) {
+    width: 15%;
+}
+
+thead th:nth-child(2) {
+    width:15%;
+}
+
+thead th:nth-child(3){
+    width:15%;
+}
+
+thead th:nth-child(4){
+    width:10%;
+}
+
+thead th:nth-child(5) {
+    width:15%;
+}
+
+thead th:nth-child(6) {
+    width:20%;
+}
+
+tbody tr:nth-child(odd){
+    background-color: #FFF;
+}
+
+th {
+    padding: 3px;
+    text-align: center;
+    text-justify: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+td {
+    padding:2px;
+    text-align: center;
+    text-justify: center;
+}
+
+.table-btns{
+    width: 90%;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+input {
+    width:90%;
+}
+
+select {
+    width:90%;
+}
+
+.edit-btn {
+    width: 45%;
+}
+
+.delete-btn {
+    width: 45%;
+}
+
+.update-btn {
+    width: 45%;
+}
+
+.cancel-btn {
+    width: 45%;
+}
+
+button[type="submit"] {
+    background-color: darkgray;
+    color: black;
+    font-weight: bold;
+    padding:5px;
+    border-radius: 10px;
+}

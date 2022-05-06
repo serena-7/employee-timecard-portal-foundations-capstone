@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="reset.css"/>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="login.css"/>
     <title>Employee Login</title>
   </head>
   <body>
@@ -13,7 +15,7 @@
     </header>
     <main>
       <section id="login-container">
-        <h3>Login:</h3>
+        <h2>Employee Login</h2>
         <form id="login-form">
           <div id="email-input-cont">
             <label for="email-input">Email:</label>
@@ -23,12 +25,14 @@
             <label for="password-input">Password:</label>
             <input type="password" id="password-input" name="password-input" placeholder="enter pawssword"/>
           </div>
-          <button>LOGIN</button>
+          <div class="buttons">
+            <button>LOGIN</button>
+          </div>
         </form>
       </section>
     </main>
     <footer>
-      <p>Copyright Info Here</p>
+      <p>&copy; 2022 Serena Sorensen</p>
     </footer>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="index.js"></script>

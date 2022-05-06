@@ -1,0 +1,48 @@
+header {
+    background-color: #395C6B;
+    height: 10vh;
+    width: 100vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    font-size: 30pt;
+}
+
+main {
+    background-color: #80A4ED;
+}
+
+section {
+    background-color: #E6E1C5;
+}
+
+footer {
+    background-color: #395C6B;
+    height: 5vh;
+    width: 100vw;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+h2 {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color:black;
+    font-size: 15pt;
+    font-weight: bold;
+
+}
+
+button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+    font-size: 12pt;
+}
