@@ -76,7 +76,7 @@ $("#add-row-btn").on('click', function(event) {
         </td>
         <td class="buttons">
             <div class="btn-container">
-                <button type="button" id="dlt-${rowNum}" class="delete-row-btn">X</button>
+                <button type="button" class="delete-row-btn">X</button>
             </div>
         </td>
     </tr>

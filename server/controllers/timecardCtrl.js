@@ -38,10 +38,10 @@ module.exports = {
     },
     
      createTimecard:(req,res)=> {
-        const {userID, jobID, date, hours} = req.body;
+        const {userID, jobID, startTimestamp, endTimestamp, hours} = req.body;
         sequelize.query(`
-        INSERT INTO timecards(user_id, job_id, date, hours)
-        VALUES(${userID}, ${jobID}, '${date}', ${hours});
+        INSERT INTO timecards(user_id, job_id, start_timestamp, end_timestamp, hours)
+        VALUES(${userID}, ${jobID}, '${startTimestamp}','${endTimestamp}', ${hours});
         `)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err))

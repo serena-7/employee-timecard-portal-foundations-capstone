@@ -1,5 +1,4 @@
 const newForm = document.querySelector('#new-time-form');
-const jobcodeSelect = document.querySelector('#job-code-select-1');
 
 const errCallback = err => console.log(err);
 
@@ -12,6 +11,7 @@ function getJobcodes(selector, initVal) {
 const jobcodesCallback = (res,selector,initVal) => {
     const jobcodes = res.data;
     $(`${selector}`).find('option').remove();
+    $(`${selector}`).append(`<option disabled selected value>--select--</option>`);
     for(let i = 0; i < jobcodes.length; i++){
         $(`${selector}`).append($("<option />").val(jobcodes[i].job_id).text(jobcodes[i].job_code));
     }
@@ -54,8 +54,8 @@ function createRow(timecard) {
                 ${endTime}
             </time>
         </td>
-        <td class="job-code">${timecard.job_code}</td>
         <td class="hours">${timecard.hours}</td>
+        <td class="job-code">${timecard.job_code}</td>
         <td class="buttons">
             <div class="btn-container">
                 <button class="edit-btn">Edit</button>
@@ -117,6 +117,45 @@ function deleteTimecard(id){
         .then(getTimecards)
         .catch(errCallback)
 }
+
+function createTimecard(body){
+    axios.post(`/timecards`, body)
+        .then(() => console.log('timecard created'))
+        .catch(errCallback);
+}
+
+function submitHandler(e){
+    e.preventDefault();
+    const userID = window.localStorage.getItem('userID');
+    $(`#new-time-tbody > tr`).each(function(rowInd, tr) {
+        const object = {};
+        $(this).find('td').each(function(dataInd, td) {
+            if(td.className !== 'buttons'){
+                if(td.className === 'hours'){
+                    object[td.className] = td.innerHTML;
+                } else {
+                    const input = td.children[0];
+                    object[td.className] = input.value;
+                }
+            }
+        })
+        object['startTimestamp'] = new Date(object['date'] + 'T' + object['start-time'] + '-07:00').toISOString();
+        object['endTimestamp'] = new Date(object['date'] + 'T' + object['end-time'] + '-07:00').toISOString();
+        
+        const bodyObj = {
+            userID,
+            jobID: object['job-code'],
+            startTimestamp: object['startTimestamp'],
+            endTimestamp: object['endTimestamp'],
+            hours: object['hours']
+        }
+        createTimecard(bodyObj);
+    })
+    alert('Created Timecards');
+    getTimecards();
+}
+
+newForm.addEventListener('submit', submitHandler);
 
 getTimecards();
 getJobcodes(`#row-1 .job-code-select`,null);
