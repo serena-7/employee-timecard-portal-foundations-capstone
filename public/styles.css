@@ -14,11 +14,13 @@ h1 {
 }
 
 main {
-    background-color: #80A4ED;
+    background-color:#6195b6; 
+    /* #80A4ED; */
 }
 
 section {
-    background-color: #E6E1C5;
+    background-color:lightgray;
+    /* #E6E1C5; */
 }
 
 footer {
@@ -45,4 +47,8 @@ p{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: black;
     font-size: 12pt;
+}
+
+footer > p {
+    color:white;
 }

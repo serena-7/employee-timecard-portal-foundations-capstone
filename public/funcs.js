@@ -1,10 +1,13 @@
+//set row number for timecard entry form/table
 var rowNum = 2;
 
+//change the current date in the info section
 function getCurrDate() {
     let currentDateInfo = document.querySelector('#current-date-info')
     currentDateInfo.innerText = convertDate(null, false);
 }
 
+//converts date text to either date format for database or to user view
 function convertDate(dateText, toDateFormat){
     let date;
     if(dateText){
@@ -19,6 +22,7 @@ function convertDate(dateText, toDateFormat){
     }
 }
 
+//extracts the time out of a string of date text in either am/pm or 24hr
 function extractTime(dateText, isAMPM){
     let date = new Date(dateText);
     let hours = date.getHours();
@@ -33,6 +37,7 @@ function extractTime(dateText, isAMPM){
     }
 }
 
+//takes in a start time and end time and finds hours between
 function calcHours(start,end) {
     start = start.split(':');
     end = end.split(':');
@@ -43,6 +48,7 @@ function calcHours(start,end) {
     return hours;
 }
 
+//changes the hours on the row of latest time change
 function updateTotHours(rowID){
     let start = $(`#${rowID} .start-time-input`).val();
     let end = $(`#${rowID} .end-time-input`).val();
@@ -52,6 +58,7 @@ function updateTotHours(rowID){
     }
 }
 
+//adds a row to the new timecard entry table tbody
 function addNewRow(){
     $('#new-time-tbody').append(`
     <tr id="row-${rowNum}">
@@ -77,41 +84,50 @@ function addNewRow(){
         </td>
     </tr>
     `);
-    getJobcodes(`#row-${rowNum} .job-code-select`,null);
-    rowNum++;
+    getJobcodes(`#row-${rowNum} .job-code-select`,null); //loads jobcodes for that row
+    rowNum++; //increase row num for next row added
 }
 
+//click event for add row button on new timecard entry
 $("#add-row-btn").on('click', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
     addNewRow();
 })
 
+//click event to delete row of new entry where delete button clicked
 $(document).on('click','.delete-row-btn', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
     $(this).parents('tr').first().remove();
 })
 
+//click event to delete a timecard of row in past table
 $(document).on('click','.dlt-btn', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
+    //extract id of timecard from row's id tag
     let timecardID = $(this).closest('tr').attr('id').match(/(\d+)/)[0];
+    //get date and send a confirm message for deleting that timecard.
     let timecardDate = $(`#past-row-${timecardID} .date`).text();
     let result = confirm(`Want to delete timecard for ${timecardDate}?`);
+    //only delete timecard if user confirms
     if(result){
         deleteTimecard(timecardID)
         alert('timecard deleted')
     }
 })
 
+//click event for editing a past timecard row when edit button clicked
 $(document).on('click','.edit-btn', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
+    //extract id of timecard from row's id tag
     let timecardID = $(this).closest('tr').attr('id').match(/(\d+)/)[0];
     editTimecard(timecardID);
 })
 
+//updates hours column of row where start time was changed
 $(document).on('change','.start-time-input', function(event){
     event.stopPropagation();
     event.stopImmediatePropagation();
@@ -119,6 +135,7 @@ $(document).on('change','.start-time-input', function(event){
     updateTotHours(rowID);
 })
 
+//updates hours column of row where end time was changed
 $(document).on('change','.end-time-input', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
@@ -126,6 +143,7 @@ $(document).on('change','.end-time-input', function(event) {
     updateTotHours(rowID);
 })
 
+//click event to update timecard in database for row update was clicked
 $(document).on('click','.update-btn', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
@@ -133,12 +151,14 @@ $(document).on('click','.update-btn', function(event) {
     updateTimecard(timecardID);
 })
 
+//cancels the editing/updating session by reloading timecards
 $(document).on('click','.cancel-btn', function(event){
     event.stopPropagation();
     event.stopImmediatePropagation();
     getTimecards();
 })
 
+//runs when the document has loaded
 $(document).ready(function() {
     let nameInfo = document.querySelector('#name-info');
     let firstName = window.localStorage.getItem('firstName');

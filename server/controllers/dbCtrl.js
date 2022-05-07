@@ -1,8 +1,9 @@
-require('dotenv').config();
+require('dotenv').config(); //not required for hosted site
 const Sequelize = require('sequelize');
 
-const {DATABASE_URL} = process.env;
+const {DATABASE_URL} = process.env; //will either pull from hosted site variables or from .env file
 
+//set up sequelize
 const sequelize = new Sequelize(DATABASE_URL, {
     dialect: 'postgres',
     dialectOptions: {
@@ -12,6 +13,7 @@ const sequelize = new Sequelize(DATABASE_URL, {
     }
 });
 
+//seed the database function
 const seed = (req,res) => {
     sequelize.query(`
 DROP TABLE IF EXISTS users CASCADE;

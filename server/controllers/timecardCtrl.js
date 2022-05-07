@@ -1,8 +1,9 @@
-require('dotenv').config();
+require('dotenv').config(); //not required for hosted site
 const Sequelize = require('sequelize');
 
-const {DATABASE_URL} = process.env;
+const {DATABASE_URL} = process.env; //will either be pulled from hosted site variables or .env file
 
+//set up sequelize
 const sequelize = new Sequelize(DATABASE_URL, {
     dialect: 'postgres',
     dialectOptions: {
@@ -13,6 +14,7 @@ const sequelize = new Sequelize(DATABASE_URL, {
 });
 
 module.exports = {
+    //query to pull timecard data
     getTimecards: (req,res) => {
         const userID = req.params.id;
         console.log(userID);
@@ -28,16 +30,16 @@ module.exports = {
             })
             .catch(err => console.log(err));
     },
-    
-     getJobcodes:(req,res)=> {
+    //query to pull jobcode data
+    getJobcodes:(req,res)=> {
         sequelize.query(`
         SELECT * FROM jobs;
         `)
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err));
     },
-    
-     createTimecard:(req,res)=> {
+    //query to insert new timecard
+    createTimecard:(req,res)=> {
         const {userID, jobID, startTimestamp, endTimestamp, hours} = req.body;
         sequelize.query(`
         INSERT INTO timecards(user_id, job_id, start_timestamp, end_timestamp, hours)
@@ -46,8 +48,8 @@ module.exports = {
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err))
     },
-    
-     deleteTimecard:(req,res)=> {
+    //query to delete timecard
+    deleteTimecard:(req,res)=> {
         const {id} = req.params;
         sequelize.query(`
         DELETE FROM timecards
@@ -56,7 +58,7 @@ module.exports = {
             .then(dbRes => res.status(200).send(dbRes[0]))
             .catch(err => console.log(err));
     },
-    
+    //query to update timecard
     editTimecard: (req,res) => {
         const {job_id, start_timestamp, end_timestamp, hours} = req.body;
         const {id} = req.params;
