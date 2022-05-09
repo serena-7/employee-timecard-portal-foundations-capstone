@@ -19,7 +19,7 @@ const login = (req,res) => {
     const {email, password} = req.body;
     sequelize.query(`
     SELECT user_id, first_name, last_name FROM users
-    WHERE user_email = '${email}' AND user_password = '${password}';
+    WHERE user_email = '${email}' AND user_password = crypt('${password}',user_password);
     `)
         .then(dbRes => {
             if(dbRes[0][0]){
@@ -54,14 +54,14 @@ const register = (req,res) => {
     const {firstName, lastName, email, password} = req.body;
     sequelize.query(`
     INSERT INTO users(user_email,user_password,first_name,last_name)
-    VALUES('${email}','${password}','${firstName}','${lastName}');
+    VALUES('${email}',crypt('${password}',gen_salt('bf')),'${firstName}','${lastName}');
     `)
         .then(postRes => console.log('register successful'))
         .catch(err => console.log(err));
     
     sequelize.query(`
     SELECT user_id, first_name, last_name FROM users
-    WHERE user_email='${email}' AND user_password='${password}';
+    WHERE user_email='${email}' AND user_password= crypt('${password}',user_password);
     `)
         .then(dbRes => {
             if(dbRes[0][0]){

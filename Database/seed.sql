@@ -1,11 +1,14 @@
+CREATE EXTENSION pgcrypto;
+
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS jobs CASCADE;
 DROP TABLE IF EXISTS timecards CASCADE;
 
+
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    user_email VARCHAR(100) NOT NULL,
-    user_password VARCHAR(500) NOT NULL,
+    user_email VARCHAR(100) NOT NULL UNIQUE,
+    user_password TEXT NOT NULL,
     first_name VARCHAR(50),
     last_name VARCHAR(50) 
 );
@@ -26,9 +29,9 @@ CREATE TABLE timecards (
 );
 
 INSERT INTO users (user_email, user_password, first_name, last_name)
-VALUES ('bob@email.com','bsmith','Bob','Smith'),
-('mike@email.com','mjohnson','Mike','Johnson'),
-('todd@email.com','tjenkins','Todd','Jenkins');
+VALUES ('bob@email.com',crypt('bsmith',gen_salt('bf')),'Bob','Smith'),
+('mike@email.com',crypt('mjohnson',gen_salt('bf')),'Mike','Johnson'),
+('todd@email.com',crypt('tjenkins',gen_satl('bf')),'Todd','Jenkins');
 
 INSERT INTO jobs (job_code, job_location)
 VALUES ('PTO','N/A'),
