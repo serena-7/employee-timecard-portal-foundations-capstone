@@ -39,8 +39,13 @@ const timecardsCallback = res => {
     const timecards = res.data;
     //clear old tbody
     $('#past-table tbody').empty();
-    for(let i = 0; i < timecards.length; i++){
-        createRow(timecards[i]);
+    if(timecards.length === 0){
+        $(`#past-msgs p`).text('No timecards to display');
+    } else {
+        $(`#past-msgs p`).text('End of Timecards');
+        for(let i = 0; i < timecards.length; i++){
+            createRow(timecards[i]);
+        }
     }
 }
 
