@@ -1,12 +1,6 @@
 //set row number for timecard entry form/table
 var rowNum = 2;
 
-//change the current date in the info section
-function getCurrDate() {
-    let currentDateInfo = document.querySelector('#current-date-info')
-    currentDateInfo.innerText = convertDate(null, false);
-}
-
 //converts date text to either date format for database or to user view
 function convertDate(dateText, toDateFormat){
     let date;
@@ -58,6 +52,11 @@ function updateTotHours(rowID){
     }
 }
 
+function userLogout(){
+    window.localStorage.clear();
+    window.location.assign("./index.html");
+}
+
 //adds a row to the new timecard entry table tbody
 function addNewRow(){
     $('#new-time-tbody').append(`
@@ -93,6 +92,12 @@ $("#add-row-btn").on('click', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();
     addNewRow();
+})
+
+$("#logout-btn").on('click', function(event) {
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    userLogout();
 })
 
 //click event to delete row of new entry where delete button clicked
@@ -158,11 +163,15 @@ $(document).on('click','.cancel-btn', function(event){
     getTimecards();
 })
 
-//runs when the document has loaded
+//runs when the document has loaded and updates info section
 $(document).ready(function() {
     let nameInfo = document.querySelector('#name-info');
     let firstName = window.localStorage.getItem('firstName');
     let lastName = window.localStorage.getItem('lastName');
     nameInfo.innerHTML = firstName + ' ' + lastName;
-    getCurrDate();
+    let currentDateInfo = document.querySelector('#current-date-info')
+    currentDateInfo.innerText = convertDate(null, false);
+    let displayTZ = document.querySelector('#display-tz')
+    let localTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    displayTZ.innerText = localTimezone;
 })

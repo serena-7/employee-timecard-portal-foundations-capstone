@@ -193,3 +193,5 @@ newForm.addEventListener('submit', submitHandler);
 
 getTimecards(); //load timecards from database
 getJobcodes(`#row-1 .job-code-select`,null); //load jobcodes on first row
+
+console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
