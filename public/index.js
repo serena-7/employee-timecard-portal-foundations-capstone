@@ -1,4 +1,5 @@
 const loginForm = document.querySelector('#login-form');
+const registerForm = document.querySelector('#register-form');
 
 function login(body) {
     axios.post(`/login`, body)
@@ -13,10 +14,24 @@ function login(body) {
         })
         .catch(err => {
             console.log(err)
-            alert('login failed.')
+            alert(err.response.data)
         })
 } 
 
+function register(body) {
+    axios.post(`/register`, body)
+        .then(res => {
+            console.log('user registered');
+            console.log(res.data);
+            window.localStorage.setItem("userID",res.data.user_id);
+            window.localStorage.setItem("firstName",res.data.first_name);
+            window.localStorage.setItem("lastName",res.data.last_name);
+            window.location.assign("./portal.html")
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
 
 function loginSubmitHandler(event) {
     event.preventDefault();
@@ -35,5 +50,46 @@ function loginSubmitHandler(event) {
     password.value = '';
 }
 
+function registerSubmitHandler(event) {
+    event.preventDefault();
+
+    let first = document.querySelector('#first-input');
+    let last = document.querySelector('#last-input');
+    let email = document.querySelector('#new-email-input');
+    let password = document.querySelector('#new-pass-input');
+    let confirmPass = document.querySelector('#confirm-pass-input');
+
+    if(password.value === confirmPass.value){
+        let bodyObj = {
+            firstName: first.value,
+            lastName: last.value,
+            email: email.value,
+            password: password.value
+        }
+
+        axios.post('/checkuser', bodyObj)
+            .then(res => {
+                console.log(res.data);
+                if(res.data === "does not exists"){
+                    register(bodyObj)
+                    first.value = '';
+                    last.value = '';
+                    email.value = '';
+                    password.value = '';
+                    confirmPass.value = '';
+                } else {
+                    alert('email already exists');
+                }
+            })
+            .catch(err => console.log(err));
+
+        // register(bodyObj);
+    } else {
+        alert('Passwords do not match')
+    }
+
+}
+
 //submit login event
 loginForm.addEventListener('submit', loginSubmitHandler);
+registerForm.addEventListener('submit',registerSubmitHandler);

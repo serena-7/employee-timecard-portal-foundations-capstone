@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 //get functions from controllers
 const {seed} = require('./controllers/dbCtrl.js');
-const {login} = require('./controllers/loginCtrl.js');
+const {login, checkUser, register} = require('./controllers/loginCtrl.js');
 const {getTimecards, getJobcodes, createTimecard, deleteTimecard, editTimecard} = require('./controllers/timecardCtrl.js');
 
 //initialize html page
@@ -23,8 +23,10 @@ app.get("/", (req,res) => {
 //DEV
 app.post('/seed',seed);
 
-//login functionality
+//login page functionality
 app.post(`/login`, login);
+app.post(`/checkuser`, checkUser);
+app.post(`/register`, register);
 
 //timecard functionality
 app.get(`/timecards/:id`, getTimecards);

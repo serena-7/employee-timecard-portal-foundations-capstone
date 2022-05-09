@@ -10,10 +10,9 @@ main {
     align-items: center;
 }
 
-#login-container {
+.container {
     border: outset;
-    height: 30vh;
-    width: 25vw;
+    margin: 20px;
     display:flex;
     flex-direction: column;
     justify-content: center;
@@ -25,7 +24,7 @@ section > h2 {
     text-align: center;
 }
 
-#login-form {
+form {
     padding:15px;
     display:flex;
     flex-direction: column;

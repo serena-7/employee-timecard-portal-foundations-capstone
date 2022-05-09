@@ -14,7 +14,35 @@
       <h1>Employee Timecard Portal</h1>
     </header>
     <main>
-      <section id="login-container">
+      <section class="container" id="register-container">
+        <h2>Register User</h2>
+        <form id="register-form">
+          <div id="first-input-cont">
+            <label for="first-input">First Name:</label>
+            <input type="text" id="first-input" name="first-input" placeholder="enter first name"/>
+          </div>
+          <div id="last-input-cont">
+            <label for="last-input">Last Name:</label>
+            <input type="text" id="last-input" name="last-input" placeholder="enter last name"/>
+          </div>
+          <div id="new-email-cont">
+            <label for="new-email-input">Email:</label>
+            <input type="text" id="new-email-input" name="new-email-input" placeholder="enter email"/>
+          </div>
+          <div id="new-pass-cont">
+            <label for="new-pass-input">Password:</label>
+            <input type="password" id="new-pass-input" name="new-pass-input" placeholder="enter password"/>
+          </div>
+          <div id="confirm-pass-cont">
+            <label for="confirm-pass-input">Confirm Password:</label>
+            <input type="password" id="confirm-pass-input" name="confirm-pass-input" placeholder="re-enter email"/>
+          </div>
+          <div class="buttons">
+            <button type="submit">REGISTER</button>
+          </div>
+        </form>
+      </section>
+      <section class="container" id="login-container">
         <h2>Employee Login</h2>
         <form id="login-form">
           <div id="email-input-cont">
@@ -26,7 +54,7 @@
             <input type="password" id="password-input" name="password-input" placeholder="enter pawssword"/>
           </div>
           <div class="buttons">
-            <button>LOGIN</button>
+            <button type="submit">LOGIN</button>
           </div>
         </form>
       </section>

@@ -29,9 +29,53 @@ const login = (req,res) => {
                 res.status(400).send('User Not Found');
             }
         })
+        .catch(err => res.status(400).send('Login Error'));
+}
+
+const checkUser = (req,res) => {
+    console.log('Checking if user exists');
+    const {email} = req.body;
+    sequelize.query(`
+    SELECT * FROM users
+    WHERE user_email = '${email}';
+    `)
+        .then(dbRes => {
+            if(dbRes[0][0]){
+                res.status(200).send('exists');
+            } else {
+                res.status(200).send("does not exists");
+            }
+        })
+        .catch(err => res.statu(400).send('Check Failed'));
+}
+
+const register = (req,res) => {
+    console.log('Registering User');
+    const {firstName, lastName, email, password} = req.body;
+    sequelize.query(`
+    INSERT INTO users(user_email,user_password,first_name,last_name)
+    VALUES('${email}','${password}','${firstName}','${lastName}');
+    `)
+        .then(postRes => console.log('register successful'))
+        .catch(err => console.log(err));
+    
+    sequelize.query(`
+    SELECT user_id, first_name, last_name FROM users
+    WHERE user_email='${email}' AND user_password='${password}';
+    `)
+        .then(dbRes => {
+            if(dbRes[0][0]){
+                res.status(200).send(dbRes[0][0]);
+                console.log('login success');
+            } else {
+                res.status(400).send('Login Failed');
+            }
+        })
         .catch(err => console.log(err));
 }
 
 module.exports = {
-    login
+    login,
+    checkUser,
+    register
 }

@@ -1,3 +1,7 @@
+body {
+    overflow-x:hidden;
+}
+
 header {
     background-color: #395C6B;
     height: 10vh;
