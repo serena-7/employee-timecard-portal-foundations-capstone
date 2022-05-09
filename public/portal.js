@@ -110,8 +110,10 @@ function updateTimecard(id){
     const newDate = $(`#past-row-${id} .date-input`).val();
     const newStart = $(`#past-row-${id} .start-time-input`).val();
     const newEnd = $(`#past-row-${id} .end-time-input`).val();
-    const startTimestamp = new Date(newDate + 'T' + newStart + '-06:00').toISOString();
-    const endTimestamp = new Date(newDate + 'T' + newEnd + '-06:00').toISOString();
+    // console.log(newDate, newStart)
+    // console.log(new Date(newDate + ' ' + newStart));
+    const startTimestamp = new Date(newDate + ' ' + newStart).toISOString();
+    const endTimestamp = new Date(newDate + ' ' + newEnd).toISOString();
     const newHours = $(`#past-row-${id} .hours`).text();
     const bodyObj = {
         job_id: +newjobCode,
@@ -167,8 +169,8 @@ function submitHandler(e){
             }
         })
         //create new timestamp elements with data in cells
-        object['startTimestamp'] = new Date(object['date'] + 'T' + object['start-time'] + '-06:00').toISOString();
-        object['endTimestamp'] = new Date(object['date'] + 'T' + object['end-time'] + '-06:00').toISOString();
+        object['startTimestamp'] = new Date(object['date'] + ' ' + object['start-time']).toISOString();
+        object['endTimestamp'] = new Date(object['date'] + ' ' + object['end-time']).toISOString();
         
         //create body to send
         const bodyObj = {
