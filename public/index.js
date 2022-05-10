@@ -22,7 +22,6 @@ function register(body) {
     axios.post(`/register`, body)
         .then(res => {
             console.log('user registered');
-            console.log(res.data);
             window.localStorage.setItem("userID",res.data.user_id);
             window.localStorage.setItem("firstName",res.data.first_name);
             window.localStorage.setItem("lastName",res.data.last_name);
@@ -69,7 +68,6 @@ function registerSubmitHandler(event) {
 
         axios.post('/checkuser', bodyObj)
             .then(res => {
-                console.log(res.data);
                 if(res.data === "does not exists"){
                     register(bodyObj)
                     first.value = '';
