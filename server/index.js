@@ -21,7 +21,7 @@ app.get("/", (req,res) => {
     });
 
 //DEV
-app.post('/seed',seed);
+app.post('/seed',seed); //to seed database from command line run this line while server is running: curl "http://localhost:4005/seed"
 
 //login page functionality
 app.post(`/login`, login);

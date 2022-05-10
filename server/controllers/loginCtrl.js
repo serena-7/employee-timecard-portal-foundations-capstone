@@ -32,6 +32,7 @@ const login = (req,res) => {
         .catch(err => res.status(400).send('Login Error'));
 }
 
+//checks if user exists and sends message back
 const checkUser = (req,res) => {
     console.log('Checking if user exists');
     const {email} = req.body;
@@ -49,6 +50,7 @@ const checkUser = (req,res) => {
         .catch(err => res.statu(400).send('Check Failed'));
 }
 
+//registers a user and returns that users information
 const register = (req,res) => {
     console.log('Registering User');
     const {firstName, lastName, email, password} = req.body;

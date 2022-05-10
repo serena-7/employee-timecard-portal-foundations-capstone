@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>demo-script.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h2 id="introduction">Introduction:</h2>
+<hr>
+<ul>
+<li>This is my first solo full stack application at Devmountain. I decided to create an employee timecard portal where employees can view, edit, and create timecards.</li>
+<li>The application is run with node.js.</li>
+<li>The front end was built using HTML, CSS, Javascript, axios.js, and jquery.js.</li>
+<li>The back end was built and runs with express.js and sequelize.js</li>
+<li>The database is postgreSQL hosted on heroku. Note that the passwords in the user table are encrypted and tested using the extension pgcrypto directly in the database.</li>
+<li>The application can be run using dotenv or the hosted Heroku site.</li>
+</ul>
+<h2 id="login-page">Login Page:</h2>
+<hr>
+<ul>
+<li>This first page is the employee login page where users can either register a new account or login to their existing account.</li>
+</ul>
+<h3 id="registering-a-user">Registering a User:</h3>
+<ul>
+<li>First we will register a new user using the Register User form.</li>
+<li>All fields are required so after you fill them all in click REGISTER.
+<ul>
+<li>ACTION: fill in Sally Burke information and click REGISTER.</li>
+</ul>
+</li>
+<li>The javascript will check if the email already exists in the users database and check that the password and confirm password match before creating the new user.</li>
+<li>Upon successful registration it will automatically log the user in to the timecard portal.</li>
+<li>This is what the portal looks like as you can see there are no past timecards because the user is new. We'll come back to this page in a minute but first lets logout by clicking the LOGOUT button.
+<ul>
+<li>ACTION: click logout.</li>
+</ul>
+</li>
+</ul>
+<h3 id="logging-in-a-user">Logging in a User:</h3>
+<ul>
+<li>Enter the email and password for a user in this case we'll use bob's account.
+<ul>
+<li>ACTION: enter bob@email.com and bob's password</li>
+</ul>
+</li>
+<li>Click LOGIN.</li>
+<li>The javascript will save the user's information that is pulled from the database in local storage before moving on to the employee portal so it can be accessed.</li>
+</ul>
+<h2 id="employee-portal-page">Employee Portal Page:</h2>
+<hr>
+<ul>
+<li>this is what the employee's portal page will look like once logged in.</li>
+</ul>
+<h3 id="info-section">Info Section:</h3>
+<ul>
+<li>The info section loads with the user's name, the current date, and the timezone on the user's local machine for reference.</li>
+<li>The timezone is important because the times the user enters and sees displayed are in the local timezone but the database stores these in UTC.</li>
+</ul>
+<h3 id="past-timecards-section-quick-look">Past Timecards Section Quick Look:</h3>
+<ul>
+<li>Now unlike when we registered Sally Bob's account already existed with timecards so the past timecards table filled in withh all of Bob's timecards in the database. We'll come back to this section in a bit.</li>
+</ul>
+<h3 id="new-timecard-entry-section">New Timecard Entry Section:</h3>
+<ul>
+<li>The new timecard entry section allows the user to enter in new timecards.</li>
+<li>Enter the date using the date picker:
+<ul>
+<li>ACTION: Enter May 3, 2022</li>
+</ul>
+</li>
+<li>Next select the start time and end time using the time pickers.
+<ul>
+<li>ACTION: Select 7:00 AM and 2:00 PM</li>
+</ul>
+</li>
+<li>Notice that when the time is changed in either time input a function is run that updated the total hours automatically if both time fields are filled in. Notice when i change the end time from 2 PM to 3PM the hours updates from 7 to 8.
+<ul>
+<li>ACTION: change end time to 3:00 PM</li>
+</ul>
+</li>
+<li>Next select the jobcode for that timecard from the drop down menu. Available jobcodes are automatically pulled from the database.
+<ul>
+<li>ACTION: change jobcode to jobsite2</li>
+</ul>
+</li>
+<li>If you want to enter more than one timecard at a time you can click the add row button as many times as you wish.
+<ul>
+<li>ACTION: click add row twice.</li>
+</ul>
+</li>
+<li>if you want to then delete a row simply click the X button on that row.
+<ul>
+<li>ACTION: click x on middle row.</li>
+</ul>
+</li>
+<li>let's fill in a second row:
+<ul>
+<li>ACTION: fill in May 4 2022, 7:00AM to 1:OOPM jobsite3</li>
+</ul>
+</li>
+<li>Now after all inputs are filled out click submit.
+<ul>
+<li>ACTION: click submit</li>
+</ul>
+</li>
+<li>If adding timecards is successful you'll get a message alert saying created timecards.</li>
+<li>As you can see the past timecards table has now been updated with the new timecards. The most recent timecards are at the top.</li>
+</ul>
+<h3 id="past-timecards-section-again">Past Timecards Section: Again</h3>
+<ul>
+<li>Each timecard in the table has some options. First let's say I got the time and jobcode wrong for the newest timecard. I can click the edit button.
+<ul>
+<li>ACTION: click edit on newest timecard (May 4)</li>
+</ul>
+</li>
+<li>Each field that can be edited will change to input boxes.</li>
+<li>The option buttons for that timecard have now changed to update and cancel. if you change your mind about editing the timecard just click cancel and it will return to normal.
+<ul>
+<li>ACTION: click cancel button</li>
+</ul>
+</li>
+<li>Or after clicking edit update the fields you want to change. So in this case we are changing the end time to 3PM which will automatically update the hours to 8 hrs for us.
+<ul>
+<li>ACTION: change end time to 3 PM</li>
+</ul>
+</li>
+<li>And we are changing the jobscode to be jobsite2
+<ul>
+<li>ACTION: change jobcode to jobsite2</li>
+</ul>
+</li>
+<li>Now click update and if it updates correctly we'll get a message alert &quot;timecard updated&quot; then the past timecards will be updated to fit the new info in the database.
+<ul>
+<li>ACTION: click update.</li>
+</ul>
+</li>
+<li>You can also delete a timecard by clicking delete.
+<ul>
+<li>ACTION: click delete on top timecard (May 4).</li>
+</ul>
+</li>
+<li>A confirm alert will pop up asking if you want to delete timecard for the date of the timecard you selected in this case it's for May 4 2022. Click OK to continue deleting.</li>
+<li>If deleted from database an alert will pop up saying timecard deleted and after clicking okay the past timecard table will update without that timecard.</li>
+</ul>
+<h2 id="conclusion">Conclusion:</h2>
+<hr>
+<ul>
+<li>so that sums up my projects capabilities.</li>
+<li>I had a blast finding new methods for creating this application. jquery is my new favorite thing for editing html in javascript which is how all the table editing was made possible. and using the pgcrypto extension in SQL made for slick password encryption.</li>
+</ul>
+
+</body>
+</html>

@@ -52,6 +52,7 @@ function updateTotHours(rowID){
     }
 }
 
+//runs when user is logged out
 function userLogout(){
     window.localStorage.clear();
     window.location.assign("./index.html");
@@ -94,6 +95,7 @@ $("#add-row-btn").on('click', function(event) {
     addNewRow();
 })
 
+//click event for logout button
 $("#logout-btn").on('click', function(event) {
     event.stopPropagation();
     event.stopImmediatePropagation();

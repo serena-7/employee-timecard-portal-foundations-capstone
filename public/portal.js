@@ -185,7 +185,6 @@ function submitHandler(e){
             endTimestamp: object['endTimestamp'],
             hours: object['hours']
         }
-        // console.log(bodyObj);
         createTimecard(bodyObj);
     })
     alert('Created Timecards');

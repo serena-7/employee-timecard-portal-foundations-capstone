@@ -22,9 +22,11 @@ function register(body) {
     axios.post(`/register`, body)
         .then(res => {
             console.log('user registered');
+            //store needed info for future pages
             window.localStorage.setItem("userID",res.data.user_id);
             window.localStorage.setItem("firstName",res.data.first_name);
             window.localStorage.setItem("lastName",res.data.last_name);
+            //go to next page
             window.location.assign("./portal.html")
         })
         .catch(err => {
@@ -51,13 +53,13 @@ function loginSubmitHandler(event) {
 
 function registerSubmitHandler(event) {
     event.preventDefault();
-
+    //collect data from inputs
     let first = document.querySelector('#first-input');
     let last = document.querySelector('#last-input');
     let email = document.querySelector('#new-email-input');
     let password = document.querySelector('#new-pass-input');
     let confirmPass = document.querySelector('#confirm-pass-input');
-
+    //if passwords match create object
     if(password.value === confirmPass.value){
         let bodyObj = {
             firstName: first.value,
@@ -65,10 +67,11 @@ function registerSubmitHandler(event) {
             email: email.value,
             password: password.value
         }
-
+        //check if user already exists
         axios.post('/checkuser', bodyObj)
             .then(res => {
                 if(res.data === "does not exists"){
+                    //register user and clear input fields if response from server is does not exist
                     register(bodyObj)
                     first.value = '';
                     last.value = '';
@@ -80,14 +83,12 @@ function registerSubmitHandler(event) {
                 }
             })
             .catch(err => console.log(err));
-
-        // register(bodyObj);
     } else {
         alert('Passwords do not match')
     }
 
 }
 
-//submit login event
+//submit events
 loginForm.addEventListener('submit', loginSubmitHandler);
 registerForm.addEventListener('submit',registerSubmitHandler);
